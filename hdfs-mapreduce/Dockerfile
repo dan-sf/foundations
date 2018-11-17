@@ -5,38 +5,42 @@ RUN set -ex \
     && apt-get update -yq \
     && apt-get upgrade -yq \
     && apt-get install -yq openjdk-8-jre \
+    && apt-get install -yq build-essential \
     && apt-get install -yq vim \
+    && apt-get install -yq git \
+    && apt-get install -yq wget
 
-# @Todo: What version of hadoop do I want?
-RUN wget https://archive.apache.org/dist/hadoop/core/hadoop-2.7.3/hadoop-2.7.3.tar.gz
+# @Question: Should this actually be JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/ ???
+ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre
+ENV HADOOP_HOME=/usr/local/hadoop
 
-# @Todo: Update with proper installs for what hdfs needs
+WORKDIR /tmp/install
 
-ARG BUILD_DEPS='python3-dev \
-        libkrb5-dev \
-        libsasl2-dev \
-        libssl-dev \
-        libffi-dev \
-        build-essential \
-        libblas-dev \
-        liblapack-dev \
-        libpq-dev \
-        git'
+# We are downloading the hadoop package from a mirror site, feel free to
+# change this to a mirror that makes more sense for your location.
+# Alternatively, download directly from Apache:
+# https://archive.apache.org/dist/hadoop/common/hadoop-3.1.1/hadoop-3.1.1.tar.gz
+# We also verify the download here
+RUN wget http://mirror.cc.columbia.edu/pub/software/apache/hadoop/common/hadoop-3.1.1/hadoop-3.1.1.tar.gz \
+         https://archive.apache.org/dist/hadoop/common/KEYS \
+         https://archive.apache.org/dist/hadoop/common/hadoop-3.1.1/hadoop-3.1.1.tar.gz.asc \
+    && gpg --import KEYS \
+    && gpg --verify hadoop-3.1.1.tar.gz.asc hadoop-3.1.1.tar.gz
 
-RUN set -ex \
-    && apt-get update -yqq \
-    && apt-get upgrade -yqq \
-    && apt-get install -yqq --no-install-recommends \
-        $BUILD_DEPS \
-        python3-pip \
-        python3-requests \
-        libmysqlclient-dev \
-        apt-utils \
-        curl \
-        rsync \
-        netcat \
-        locales \
-        vim \
-        less \
-        sudo \
+# ---------
+
+
+RUN tar xf hadoop-3.1.1.tar.gz \
+    && mv hadoop-3.1.1 /usr/local \
+    && useradd -ms /bin/bash -d ${HADOOP_HOME} hadoop \
+    && cd /usr/local \
+    && ln -s ./hadoop-3.1.1 hadoop
+
+# @Question: Do we actually need the hadoop user?
+
+# Cleanup install dir
+WORKDIR /
+RUN rm -rf /tmp/install
+
+USER hadoop
 
