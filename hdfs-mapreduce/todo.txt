@@ -1,0 +1,6 @@
+
+# TODO:
+- Make data folder in the hadoop user dir with inputs for mapreduce programs
+- Create scripts for compiling the java code in the container and running the compiled jars
+- Install maven and create java jars using maven for building (currently we manually build the jar for the basic word count program)
+
