@@ -4,3 +4,17 @@
 - Create scripts for compiling the java code in the container and running the compiled jars
 - Install maven and create java jars using maven for building (currently we manually build the jar for the basic word count program)
 
+# MapReduce programs
+
+- Process a basic data file serialized in avro
+    User id, session id, label, value <- avvro serialized test data
+    Get sessions/user and total value for each label
+- Get top 100 words between two joined text files
+- Get word frequency (word count / total words)
+- Process a basic data file serialized in json
+    User id, session id, label, value <- avvro serialized test data
+    Get total value per user id
+
+^^ Try to make all examples run in standalone, sudo distributed, and fully distributed modes
+    - For fully distributed modes make sure we are using hdfs fully
+
