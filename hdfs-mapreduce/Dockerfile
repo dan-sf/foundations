@@ -34,12 +34,8 @@ WORKDIR /tmp/install
 #     && gpg --import KEYS \
 #     && gpg --verify hadoop-3.1.1.tar.gz.asc hadoop-3.1.1.tar.gz
 
-RUN pwd
-
 # @Debug
 ADD hadoop-3.1.1 /tmp/install/hadoop-3.1.1
-
-RUN ls
 
 # ---------
 

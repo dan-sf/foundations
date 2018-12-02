@@ -15,6 +15,14 @@ echo "Creating test input data"
 mkdir -p input
 echo "hello world one two three hello hello two" > input/input.txt
 
+echo
+echo ----------
+echo INPUT DATA
+echo ----------
+echo
+cat input/input.txt
+echo
+
 mkdir -p classes
 
 # Remove output dir if it exists
@@ -24,10 +32,21 @@ echo "Compiling the java code"
 javac -classpath ".:`$HADOOP_HOME/bin/hadoop classpath`" -d classes BasicWordCount.java
 
 echo "Creating jar file"
-jar -cvfm classes/BasicWordCount.jar MANIFEST.MF classes
+jar -cvf classes/BasicWordCount.jar classes
 
 echo "Running mapreduce in standalone mode"
 ${HADOOP_HOME}/bin/hadoop jar classes/BasicWordCount.jar BasicWordCount
+
+echo
+echo -----------
+echo OUTPUT DATA
+echo -----------
+echo
+cat output/*
+echo
+
+# Cleanup
+rm -r input output classes
 
 # popd back to original run dir
 popd > /dev/null
