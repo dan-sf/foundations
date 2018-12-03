@@ -1,0 +1,12 @@
+# Clusters/Infra examples to build
+
+- HDFS MapReduce infra examples
+- Vitess MySQL cluster running on Kubernetes
+- Spark cluster
+- Flink cluster (With Kafka for streaming data)
+- Postgres CDC pipeline (into minio blob store -> MySQL or similar) (using Kafka)
+- Apache Arrow enabled cluster
+- Basic Kubernetes cluster
+- An ELK stack
+- Example application of micro services
+
