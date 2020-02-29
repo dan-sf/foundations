@@ -1,0 +1,13 @@
+# This conf was created from the default conf and the conf used in the flink
+# playground
+jobmanager.rpc.address: jobmanager
+jobmanager.rpc.port: 6123
+
+jobmanager.heap.size: 1024m
+taskmanager.heap.size: 1024m
+taskmanager.numberOfTaskSlots: 2
+
+state.backend: filesystem
+state.checkpoints.dir: file:///tmp/flink-checkpoints-directory
+state.savepoints.dir: file:///tmp/flink-savepoints-directory
+

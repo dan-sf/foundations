@@ -1,0 +1,37 @@
+version: "3"
+services:
+    zookeeper:
+        image: kafka-flink-streaming-fd
+        working_dir: /opt/zookeeper
+        command: "bin/zkServer.sh start-foreground"
+        ports:
+            - "2181:2181"
+    kafka:
+        image: kafka-flink-streaming-fd
+        working_dir: /opt/kafka
+        command: bash -c "while ! nc -z zookeeper 2181; do sleep 0.2; done && bin/kafka-server-start.sh /opt/kafka/config/server.properties"
+        ports:
+            - "9092:9092"
+        depends_on:
+            - zookeeper
+    jobmanager:
+        image: kafka-flink-streaming-fd
+        working_dir: /opt/flink
+        command: bash -c "while ! nc -z kafka 9092; do sleep 0.2; done && bin/jobmanager.sh start-foreground"
+        ports:
+            - "8081:8081"
+        depends_on:
+            - kafka
+    taskmanager:
+        image: kafka-flink-streaming-fd
+        working_dir: /opt/flink
+        command: bash -c "while ! nc -z kafka 9092; do sleep 0.2; done && bin/taskmanager.sh start-foreground"
+        depends_on:
+            - jobmanager
+    # Create the Kafka topics
+    create_topics:
+        image: kafka-flink-streaming-fd
+        working_dir: /opt/kafka
+        command: /opt/kafka/create_topics.sh
+        depends_on:
+            - kafka
