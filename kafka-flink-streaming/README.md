@@ -1,6 +1,10 @@
 Kafka Flink streaming
 =====================
 
+_For a more in depth overview of this project, I did a companion blog post you
+can find
+[here](https://www.dsfcode.com/posts/stream-processing-with-kafka-and-flink/)_
+
 This project is a basic example of how to spin up
 [Kafka](https://kafka.apache.org/) and [Flink](https://flink.apache.org/)
 locally, and use those frameworks to process some streaming data. Here we will

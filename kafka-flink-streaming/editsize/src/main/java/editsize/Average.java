@@ -5,7 +5,7 @@ import org.apache.flink.api.java.tuple.Tuple2;
 
 // The accumulator class, which holds the state of the in-flight aggregates
 class AverageAccumulator {
-	public Long count;
+  public Long count;
   public Long sum;
   public AverageAccumulator() {
     count = 0L;
